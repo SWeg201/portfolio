@@ -4,13 +4,13 @@ from tkinter import PhotoImage
 #Icon by https://www.flaticon.com/free-icon/system_3247956?term=work&page=1&position=13&origin=search&related_id=3247956
 
 def create_gui(master, browse_output_folder, browse_render_exe_folder, browse_batch_file_directory, select_file, init_batch_generation, run_batch_file, open_help_dialog, render_executable_path, output_folder, batch_file_path):
-    master.title("PUPPETEERS MAYA RENDERING TOOLKIT")
+    master.title("MAYA RENDERING TOOLKIT")
     master.geometry("850x650")
     master.config(bg="#333333")  # Dark gray color
     icon_image = PhotoImage(file="icon.png")
     master.iconphoto(False, icon_image)
 
-    title_label = tk.Label(master, text="PUPPETEERS Maya Rendering Toolkit", font=("Roboto", 16), bg="#333333", fg="white")
+    title_label = tk.Label(master, text="Maya Rendering Toolkit", font=("Roboto", 16), bg="#333333", fg="white")
     title_label.pack(pady=10)
 
     # Create a frame for the labels
