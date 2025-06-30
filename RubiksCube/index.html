@@ -1,0 +1,71 @@
+<!--
+  © 2025 Puppeteers GmbH. All rights reserved.
+  Developed by Sarah Wegmann.
+  This code is the property of Puppeteers GmbH and is provided solely for showcasing purposes.
+  Unauthorized copying, modification, or distribution of this code is prohibited.
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubic's Cube</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap" rel="stylesheet">
+
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/",
+                "motion": "https://cdn.jsdelivr.net/npm/@motionone/dom@10.15.0/dist/motion.js"
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div id="logo">
+        <img src="assets/gui/Pup_Logo.png" alt="Logo" class="logo">
+    </div>
+    <div id="hud">
+        <div class="hud-box">
+            <div class="moves-container">
+                <div class="moves-counter">
+                    <span id="movesCounter" class="moves-box">0</span>
+                </div>
+                <button class="reset-Camera" id="resetCameraButton">
+                    <img src="assets/gui/ResetCamera.png" alt="resetCamera" />
+                </button>
+            </div>
+            <div class="timer-box">
+                <div class="timer">
+                    <span id="timerDisplay">00:00</span>
+                </div>
+                <button id="pauseButton" disabled>
+                    <img src="./assets/gui/Play.png" alt="Play" />
+                </button>
+            </div>
+            <div class="skin-title">
+                <p>SKIN</p>
+            </div>
+            <div class="skin-switcher-box">
+                <button class="switch-button" id="leftButton">
+                    <img src="assets/gui/Btn_Left.png" alt="Left" />
+                </button>
+                <span id="currentSkin">STANDARD</span>
+                <button class="switch-button" id="rightButton">
+                    <img src="assets/gui/Btn_Right.png" alt="Right" />
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="gameScene"> 
+        <script type="module" src="./game_manager.js"></script>
+        <script type="module" src="./index.js"></script>
+    </div>
+    </body>
+
+</html>

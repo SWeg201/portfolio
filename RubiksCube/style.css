@@ -1,0 +1,262 @@
+html {
+    font-size: 16px;
+}
+
+body {
+    overflow: hidden;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1rem;
+    background-color: #D7D7D7;
+}
+
+#gameScene {
+    position: absolute;
+    left: 0;
+    top: 10rem; 
+    width: 100%;
+    height: 100%; 
+    overflow: hidden;
+    z-index: 1;
+}
+
+#hud {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: absolute;
+    top: 10vh;
+    width: 100%; 
+    gap: 1rem;
+    text-align: center;
+    font-size: 1rem;
+    pointer-events: none;
+    touch-action: none;
+    z-index: 10;
+    scale: 0.8;
+}
+
+.hud-box, .timer-box, .skin-switcher-box, #pauseButton {
+    pointer-events: auto; 
+}
+
+.hud-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    max-width: 25rem;
+    background-color: white;
+    border: 0.125rem solid black;
+    border-radius: 2rem;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.timer-box,
+.skin-switcher-box {
+    position: relative; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    color: white;
+    border-radius: 3rem;
+    width: 100%;
+    max-width: 20rem;
+    height: 3rem;
+    gap: 0.5rem;
+}
+
+.switch-button {
+    position: absolute; 
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    outline: none; 
+    background-color: transparent;
+    cursor: pointer;
+    border: none; 
+}
+
+.switch-button img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+#leftButton {
+    left: 0.3125rem; 
+}
+
+#rightButton {
+    right: 0.3125rem; 
+}
+
+#pauseButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    background-color: #000000;
+    color: #ffffff;
+    border: 0.125rem solid black;
+    border-radius: 0.625rem;
+    cursor: pointer;
+    position: absolute;
+    right: 1.5rem;
+}
+
+#pauseButton img {
+    width: 1.25rem;
+    height: 1.25rem;
+    object-fit: contain;
+    margin-left: 0.5rem;
+    display: inline-block;
+}
+.skin-title {
+    margin: 0;
+    font-weight: bold;
+    font-size: 1.25rem;
+}
+
+.skin-title p {
+    margin-bottom: 0px; 
+}
+
+.moves-container {
+    display: flex;
+    align-items: center; 
+    gap: 10px;
+}
+
+.moves-counter {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: black;
+    width: 4rem;
+    height: 4rem;
+    line-height: 4rem;
+    text-align: center;
+    border: 0.125rem solid black;
+    border-radius: 50%;
+    background-color: white;
+    margin: 1rem 0;
+}
+
+.reset-Camera {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.reset-Camera img {
+    width: 3.25rem;
+    height: 3.25rem;
+}
+
+#logo {
+    position: absolute;
+    z-index: 20;
+    width: 100%;
+    height: auto;
+    top: 1rem; 
+    left: 1rem;  
+    pointer-events: none; 
+}
+
+#logo img {
+    width: 20rem;
+    height: auto;
+}
+
+#pauseButton {
+    background-color: black;
+    border: none;
+    color: white;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+#pauseButton img {
+    width: 1.5rem;
+    height: auto;
+}
+
+@media (max-width: 1024px) {
+    #hud {
+        gap: 0.8rem;
+        font-size: 1.3rem;
+    }
+
+    .moves-counter {
+        width: 3rem;
+        height: 3rem;
+        line-height: 3rem;
+        font-size: 1.3rem;
+    }
+
+    #pauseButton {
+        width: 2.5rem;
+        height: 2.5rem;
+    }
+    
+    #logo {
+        width: 3rem; 
+    }
+
+    #logo img {
+        width: 12rem;
+        height: auto;
+    }
+
+}
+
+@media (min-width: 1024px) {
+    #hud {
+        font-size: 1.3rem; 
+    }
+
+    .reset-Camera img {
+        width: 4.25rem;
+        height: 4.25rem;
+    }
+
+    #logo {
+        width: 5rem; 
+    }
+
+    .hud-box {
+        padding: 1.5rem;
+    }
+}
+
+@media (min-width: 1440px) {
+    #hud {
+        right: 0; 
+        left: auto; 
+        top: 10vh; 
+        width: 80%; 
+        max-width: 25rem; 
+    }
+
+    .reset-Camera img {
+        width: 4.25rem;
+        height: 4.25rem;
+    }
+}
+
