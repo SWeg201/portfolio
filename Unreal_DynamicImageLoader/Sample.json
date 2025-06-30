@@ -1,0 +1,17 @@
+{
+  "Item1": {
+    "label": "Generic Label",
+    "text": "Generic description text.",
+    "image": "path/to/image.jpg"
+  },
+  "Item2": {
+    "label": "Generic Label",
+    "text": "Generic description text.",
+    "image": "path/to/image.jpg"
+  },
+  "Item3": {
+    "label": "Generic Label",
+    "text": "Generic description text.",
+    "image": "path/to/image.jpg"
+  }
+}
