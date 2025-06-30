@@ -1,0 +1,146 @@
+// ===============================================
+// TimeEditor_To_GameExporter.mel
+// Description: Extracts sorted animation clips from Time Editor, cleans up their names, and sets them up in Game Exporter.
+// ===============================================
+
+string $activeComposition = `timeEditorComposition -q -act`; 
+string $tracks[] = `timeEditorTracks -q -atc $activeComposition`;
+string $firstTrack = $tracks[0];
+int $allClipIDs[] = `timeEditorTracks -q -ac $firstTrack`; 
+
+proc add_to_GameExporter(string $clipName, float $startTime, float $endTime, int $clipIndex) {
+    float $adjustedEndTime = $endTime - 1; // Calculate adjusted end time
+    setAttr -type "string" ("gameExporterPreset2.animClips[" + $clipIndex + "].animClipName") $clipName;
+    setAttr ("gameExporterPreset2.animClips[" + $clipIndex + "].animClipStart") $startTime;
+    setAttr ("gameExporterPreset2.animClips[" + $clipIndex + "].animClipEnd") $adjustedEndTime; // Use adjusted value
+}
+
+proc string remove_Animclip_Suffix(string $name) {
+    string $cleanedName = $name;
+
+    // Remove _animclip or _animclip followed by digits at the end
+    if (`match "_animclip[0-9]*$" $cleanedName` != "") {
+        $cleanedName = `substitute "_animclip[0-9]*$" $cleanedName ""`;
+    }
+
+    // Remove numbers that appear after an underscore (e.g., _02, _03, etc.)
+    $cleanedName = `substitute "_[0-9]+" $cleanedName ""`;
+
+    return $cleanedName;
+}
+
+
+proc sort_by_StartTime(int $allClipIDs[]) {
+    int $sortedClips[];
+    float $clipStartTimes[]; 
+    
+    
+    if(size($allClipIDs) > 0) {
+        for($clipID in $allClipIDs) {
+            float $startTime = `timeEditorClip -q -startTime $clipID`; 
+            $sortedClips[size($sortedClips)] = $clipID; 
+            $clipStartTimes[size($clipStartTimes)] = $startTime; 
+        }
+        
+        for($i = 0; $i < size($clipStartTimes) -1; $i++) {
+            for($j = $i + 1; $j < size($clipStartTimes); $j++) {
+                if($clipStartTimes[$i] > $clipStartTimes[$j]) {
+                    float $tempTime = $clipStartTimes[$i]; 
+                    $clipStartTimes[$i] = $clipStartTimes[$j];
+                    $clipStartTimes[$j] = $tempTime; 
+                    
+                    int $tempClipID = $sortedClips[$i]; 
+                    $sortedClips[$i] = $sortedClips[$j]; 
+                    $sortedClips[$j] = $tempClipID; 
+                }
+            }
+        }
+        
+        
+        int $gameExportClipIndex = 0;
+        for($clipID in $sortedClips) { 
+            string $currentClipName = `timeEditorClip -q -name $clipID`; 
+            float $currentClipStartTime = `timeEditorClip -q -s $clipID`; 
+            float $currentClipEndTime = `timeEditorClip -q -et $clipID`; 
+            add_to_GameExporter($currentClipName, $currentClipStartTime, $currentClipEndTime, $gameExportClipIndex);
+            $gameExportClipIndex++;
+            print($currentClipName + "\n"); 
+        }
+    }
+}
+
+
+proc string get_Today_Date() {
+    string $date = system ("date/t");
+    $date = substituteAllString($date, "\n", "");  
+    $date = substituteAllString($date, "\r", "");
+    $date = substituteAllString($date, ".", "");
+    $date = strip($date);
+    return $date;    
+}
+
+
+proc set_GameExporter_Settings() {
+    string $today = get_Today_Date(); 
+    setAttr -type "string" "gameExporterPreset2.fileVersion" "FBX201800"; 
+    setAttr -type "string" "gameExporterPreset2.exportPath" "O:/Puppeteers/P2023_XXX_Smart Character/03_3D_Daten/Maya_Project/scenes/FBX/"; 
+    setAttr -type "string" "gameExporterPreset2.exportFilename" ("SmartCharacter_" + $today + "_vXX"); 
+    
+    setAttr "gameExporterPreset2.frozen" 0; 
+    setAttr "gameExporterPreset2.overridePresetValue" 0; 
+    setAttr "gameExporterPreset2.isTheLastOneSelected" 1; 
+    setAttr "gameExporterPreset2.isTheLastOneUsed" 1; 
+    setAttr "gameExporterPreset2.useFilenameAsPrefix" 1; 
+    setAttr "gameExporterPreset2.viewInFBXReview" 0; 
+    setAttr "gameExporterPreset2.exportTypeIndex" 2; 
+    setAttr "gameExporterPreset2.exportSetIndex" 2; 
+    setAttr "gameExporterPreset2.modelFileMode" 1; 
+    setAttr "gameExporterPreset2.moveToOrigin" 0; 
+    setAttr "gameExporterPreset2.smoothingGroups" 1; 
+    setAttr "gameExporterPreset2.splitVertexNormals" 0; 
+    setAttr "gameExporterPreset2.tangentsBinormals" 1; 
+    setAttr "gameExporterPreset2.smoothMesh" 0; 
+    setAttr "gameExporterPreset2.selectionSets" 0; 
+    setAttr "gameExporterPreset2.convertToNullObj" 0; 
+    setAttr "gameExporterPreset2.preserveInstances" 0; 
+    setAttr "gameExporterPreset2.referencedAssetsContent" 0; 
+    setAttr "gameExporterPreset2.triangulate" 0; 
+    setAttr "gameExporterPreset2.exportAnimation" 0; 
+    setAttr "gameExporterPreset2.useSceneName" 0; 
+    setAttr "gameExporterPreset2.removeSingleKey" 0; 
+    
+    setAttr "gameExporterPreset2.fileSplitType" 1; 
+    setAttr "gameExporterPreset2.includeCombinedClips" 0; 
+    setAttr "gameExporterPreset2.bakeAnimation" 1; 
+    setAttr "gameExporterPreset2.bakeAnimStart" 0; 
+    setAttr "gameExporterPreset2.bakeAnimEnd" 0; 
+    setAttr "gameExporterPreset2.bakeAnimStep" 0; 
+    setAttr "gameExporterPreset2.resampleAll" 0; 
+    setAttr "gameExporterPreset2.deformedModels" 0; 
+    setAttr "gameExporterPreset2.skinning" 1; 
+    setAttr "gameExporterPreset2.blendshapes" 1; 
+    setAttr "gameExporterPreset2.curveFilters" 0; 
+    setAttr "gameExporterPreset2.constantKeyReducer" 0; 
+    setAttr "gameExporterPreset2.ckrTranslationPrecision" 0; 
+    setAttr "gameExporterPreset2.ckrRotationPrecision" 0; 
+    setAttr "gameExporterPreset2.ckrScalingPrecision" 0; 
+    setAttr "gameExporterPreset2.ckrOtherPrecision" 0; 
+    setAttr "gameExporterPreset2.ckrAutoTangentOnly" 0; 
+    setAttr "gameExporterPreset2.constraints" 0; 
+    setAttr "gameExporterPreset2.skeletonDefinitions" 0; 
+    setAttr "gameExporterPreset2.includeCameras" 0; 
+    setAttr "gameExporterPreset2.includeLights" 1; 
+    setAttr "gameExporterPreset2.upAxis" 1; 
+    setAttr "gameExporterPreset2.embedMedia" 1; 
+    setAttr "gameExporterPreset2.includeChildren" 0; 
+    setAttr "gameExporterPreset2.inputConnections" 0; 
+    setAttr "gameExporterPreset2.autoScaleFactor" 0; 
+    setAttr "gameExporterPreset2.showWarningManager" 0; 
+    setAttr "gameExporterPreset2.generateLogData" 0; 
+    setAttr "gameExporterPreset2.fileType" 0; 
+}
+
+sort_by_StartTime($allClipIDs);
+set_GameExporter_Settings(); 
+gameFbxExporter;
+print "\nClip Preparation Script executed!";

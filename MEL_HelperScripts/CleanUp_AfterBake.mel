@@ -1,0 +1,43 @@
+// ===============================================
+// CleanUp_AfterBake.mel
+// Description: Cleans up the scene after baking animation by reparenting skeleton and geometry, and deleting temporary groups.
+// ===============================================
+
+proc cleanUp_AfterBake() {
+    // Groups to delete after reparenting
+    string $geoMasterGroup = "SC_Female_GEO"; 
+    string $controlGroup = "Control_Grp"; 
+    string $skelMasterGroup = "Skeleton_Grp"; 
+    
+    // Groups for geometry reparenting 
+    string $bodyGroup = "Body";
+    string $clothGroup = "Geo_Master_Ankleide"; 
+    string $targetParent = "SC";
+    
+    string $bodyGroupChildren[] = `listRelatives -children $bodyGroup`; 
+    string $clothGroupChildren[] = `listRelatives -children $clothGroup`;
+
+    if (`objExists $targetParent`) {
+        
+        //Reparent Bind Skeleton to Group "SC" 
+        parent "root_bind" $targetParent;
+        
+        //Reparent Geometry to Group "SC"
+        for($child in $bodyGroupChildren) {
+            parent $child $targetParent; 
+        }
+        for($child in $clothGroupChildren) {
+            parent $child $targetParent; 
+        }
+        
+        print "\nCleanup After Bake executed successfully!";
+        
+    } else {
+        print($targetParent + "does not exist.\n"); 
+    }
+    
+    delete $geoMasterGroup $controlGroup $skelMasterGroup;
+}
+
+
+cleanUp_AfterBake(); 

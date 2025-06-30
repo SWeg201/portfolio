@@ -1,0 +1,14 @@
+// ===============================================
+// Pipeline_Helper_Master.mel
+// Description: Combines CleanUp_AfterBake and ClipPreparation in a small, user-friendly window.
+// ===============================================
+
+string $window = `window -title "SmartCharacter Pipeline Helper"
+        -iconName "SC" 
+        -widthHeight 200 105`; 
+columnLayout -adjustableColumn true -generalSpacing 10 -margins 10; 
+        button -label "Clean Up Scene" -command "source \"O:/Puppeteers/P2023_XXX_Smart Character/03_3D_Daten/Maya_Project/scripts/CleanUp_AfterBake.mel\"";
+        button -label "Run ClipExport Helper"  -command "source \"O:/Puppeteers/P2023_XXX_Smart Character/03_3D_Daten/Maya_Project/scripts/ClipPreparation_GameExporter.mel\"";
+        button -label "Close" -command ("deleteUI -window " + $window); 
+setParent ..;
+showWindow $window; 
